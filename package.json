@@ -1,0 +1,16 @@
+{
+  "name": "olc-workshop-vue2",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite --open",
+    "build": "vite build",
+    "preview": "vite preview --port 4173"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue2": "^1.1.2",
+    "sass": "^1.58.0",
+    "terser": "^5.14.2",
+    "vite": "^3.0.2"
+  }
+}
