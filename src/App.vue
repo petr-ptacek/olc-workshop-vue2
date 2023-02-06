@@ -14,7 +14,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div>
+  <div class="container">
     <h1>Counter {{ state.counter }}</h1>
   </div>
 </template>
