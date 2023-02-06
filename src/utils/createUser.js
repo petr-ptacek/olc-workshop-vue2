@@ -8,7 +8,7 @@ export function createUser() {
   const sexType = faker.name.sexType();
   const firstName = faker.name.firstName(sexType);
   const lastName = faker.name.lastName(sexType);
-  const avatar = faker.internet.avatar();
+  const avatar = faker.image.avatar();
   const sex = { male: 'male', female: 'female' }[sexType];
 
   return {
@@ -25,6 +25,5 @@ export function createUser() {
  * @returns {import('@/types').User[]}
  */
 export function createUsers(count = +import.meta.env.VITE_USERS_COUNT) {
-  debugger
-  return Array.from({ length: count }, () => createUser());
+  return Array.from({ length: count }, createUser);
 }
