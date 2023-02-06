@@ -15,6 +15,9 @@ export default defineComponent({
 
 <template>
   <div class="container">
-    <h1>Counter {{ state.counter }}</h1>
+    <p class="p-2">
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis delectus deleniti dicta ducimus eaque eius
+      eveniet ex exercitationem fugiat hic, id, in iusto laboriosam nemo, neque numquam provident sequi tenetur.
+    </p>
   </div>
 </template>
