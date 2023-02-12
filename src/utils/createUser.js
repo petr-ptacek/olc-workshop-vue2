@@ -9,11 +9,9 @@ export function createUser() {
   const firstName = faker.name.firstName(sexType);
   const lastName = faker.name.lastName(sexType);
   const avatar = faker.image.avatar();
-  const sex = { male: 'male', female: 'female' }[sexType];
 
   return {
     id,
-    sex,
     firstName,
     lastName,
     avatar

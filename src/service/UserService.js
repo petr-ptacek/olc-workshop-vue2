@@ -23,7 +23,7 @@ export class UserService {
   static async getAsync() {
     return execWithDelay(
       UserService.get.bind(null),
-      getRandomNumber(0, 1000)
+      getRandomNumber(1000, 5000)
     );
   }
 
@@ -49,7 +49,7 @@ export class UserService {
   static async deleteAsync(id) {
     return execWithDelay(
       UserService.delete.bind(null, id),
-      getRandomNumber(0, 1000)
+      getRandomNumber(500, 1500)
     );
   }
 
@@ -84,7 +84,7 @@ export class UserService {
   static async patchAsync(id, data) {
     return execWithDelay(
       UserService.patchAsync.bind(null, id, data),
-      getRandomNumber(0, 1000)
+      getRandomNumber(500, 3000)
     );
   }
 
@@ -106,7 +106,7 @@ export class UserService {
   static async createAsync(data) {
     return execWithDelay(
       UserService.create.bind(null, data),
-      getRandomNumber(0, 1000)
+      getRandomNumber(1000, 3000)
     );
   }
 }

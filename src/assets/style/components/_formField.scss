@@ -1,0 +1,30 @@
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  &__label {
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+
+  &__input[type="text"] {
+    padding: 1.2rem 1rem;
+    border: 1px solid var(--color-gray-light-1);
+    border-radius: 4px;
+    outline: none;
+
+    &:focus {
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.75);
+    }
+  }
+
+  &--isRequired {
+    .formField__label::after {
+      content: "*";
+      margin-left: 0.4rem;
+      -webkit-text-fill-color: var(--color-red);
+      color: var(--color-red);
+    }
+  }
+}

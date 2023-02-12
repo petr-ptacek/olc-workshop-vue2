@@ -52,12 +52,12 @@ export default {
     notify(data) {
       const item = createNotifyItem(data);
 
-      window.setTimeout(
-          () => {
-            this.deleteNotifyItem(item)
-          },
-          6000
-      );
+      // window.setTimeout(
+      //     () => {
+      //       this.deleteNotifyItem(item)
+      //     },
+      //     6000
+      // );
 
       this.state.items.unshift(item);
     },

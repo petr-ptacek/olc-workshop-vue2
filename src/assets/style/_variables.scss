@@ -82,6 +82,10 @@
 
   --color-text: var(--color-black);
 
+  --z-intex--notify: 1000;
+  --z-index--modal: 900;
+  --z-index--backdrop: 800;
+
   --color-info: var(--color-indigo-light-1);
   --color-error: var(--color-red-dark-1);
   --color-success: var(--color-green-dark-1);

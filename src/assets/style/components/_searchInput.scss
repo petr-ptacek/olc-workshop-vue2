@@ -1,0 +1,27 @@
+.searchInput {
+  display: flex;
+  width: max-content;
+  position: relative;
+
+  &__input {
+    font-size: 2rem;
+    border: 2px solid var(--color-indigo-light-3);
+    border-radius: 5px;
+    outline: none;
+    padding: 1.2rem 4rem 1.2rem 1.2rem;
+    width: 400px;
+
+    &:focus {
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    line-height: 1;
+    transform: translateY(-50%);
+  }
+
+}

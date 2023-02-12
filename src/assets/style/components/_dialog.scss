@@ -1,0 +1,38 @@
+.dialog {
+  padding: 5rem 2.5rem 2.5rem 2.5rem;
+  border: none;
+  background-color: var(--color-white-soft);
+  box-shadow: 0 0 6px rgba(0, 0, 0, .25);
+  border-radius: 6px;
+  margin: auto;
+  max-width: 60vw;
+  min-width: 200px;
+
+  &__actions {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+
+    button {
+      padding: 0.5rem;
+      color: var(--color-white);
+      background-color: var(--color-red);
+      border-radius: 50%;
+    }
+  }
+
+  &::backdrop {
+    background-color: var(--color-white-soft);
+    backdrop-filter: blur(2px);
+  }
+}
+
+.dialog--createUser {
+  .dialog__header {
+    h1 {
+      text-align: center;
+      background-clip: text;
+
+    }
+  }
+}

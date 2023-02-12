@@ -1,7 +1,7 @@
 <template>
   <div
       class="spinner"
-      :class="{ 'spinner--is-hidden': !visible }"
+      :class="{ 'spinner--isHidden': !visible }"
   >
     <div class="spinner__circle-1">
       <div class="spinner__circle-2"></div>
@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  name: "TheLoader",
+  name: 'TheLoader',
   props: {
     visible: {
       type: Boolean,
@@ -22,7 +22,7 @@ export default {
       default: false
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -38,15 +38,18 @@ export default {
   position: absolute;
   width: 100%;
   height: 100%;
+  top: 0;
+  left: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   z-index: 10;
-  background-color: rgba(#2f2f2f, 0.9);
+  background-color: rgba(#848484,0.35);
+  backdrop-filter: blur(2px);
 }
 
-.spinner--is-hidden {
+.spinner--isHidden {
   display: none;
 }
 
