@@ -1,0 +1,89 @@
+:root {
+  /**************************
+   * COLOR PALETTE
+   ***************************/
+
+  /*WHITE*/
+  --color-white: #fff;
+  --color-white-soft: #f9f9f9;
+  --color-white-mute: #f1f1f1;
+
+  /*BLACK*/
+  --color-black: #1a1a1a;
+  --color-black-pure: #000;
+  --color-black-soft: #242424;
+  --color-black-mute: #2f2f2f;
+
+
+  /*INDIGO*/
+  --color-indigo: #213547;
+  --color-indigo-light-1: #374959;
+  --color-indigo-light-2: #4d5d6c;
+  --color-indigo-light-3: #64727e;
+  --color-indigo-dark-1: #1e3040;
+  --color-indigo-dark-2: #1a2a39;
+  --color-indigo-dark-3: #1a2a39;
+
+  /*RED*/
+  --color-red: #db4437;
+  --color-red-light-1: #df574b;
+  --color-red-light-2: #e2695f;
+  --color-red-light-3: #e2695f;
+  --color-red-dark-1: #c53d32;
+  --color-red-dark-2: #af362c;
+  --color-red-dark-3: #af362c;
+
+  /*BLUE*/
+  --color-blue: #4285f4;
+  --color-blue-light-1: #5591f5;
+  --color-blue-light-2: #689df6;
+  --color-blue-dark-1: #3b78dc;
+  --color-blue-dark-2: #356ac3;
+
+  /*GREEN*/
+  --color-green: #0f9d58;
+  --color-green-light-1: #27a769;
+  --color-green-light-2: #3fb179;
+  --color-green-dark-1: #0e8d4f;
+  --color-green-dark-2: #0c7e46;
+
+  /*YELLOW*/
+  --color-yellow: #f4b400;
+  --color-yellow-light-1: #f5bc1a;
+  --color-yellow-light-2: #f6c333;
+  --color-yellow-dark-1: #dca200;
+  --color-yellow-dark-2: #c39000;
+
+  /*GRAY*/
+  --color-gray: #656565;
+  --color-gray-light-1: #747474;
+  --color-gray-light-2: #848484;
+  --color-gray-dark-1: #5b5b5b;
+  --color-gray-dark-2: #515151;
+
+  /***************
+   * FONT
+   ***************/
+
+  --font-family-base: "Inter var experimental", "Inter var", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+  "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+  "Segoe UI Symbol", "Noto Color Emoji";
+
+  --font-family-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+  monospace;
+
+
+  /*USAGE*/
+  --color-background: var(--color-white);
+  --color-background-soft: var(--color-white-soft);
+  --color-background-mute: var(--color-white-mute);
+
+  --color-border: var(--color-gray);
+
+  --color-text: var(--color-black);
+
+  --color-info: var(--color-indigo-light-1);
+  --color-error: var(--color-red-dark-1);
+  --color-success: var(--color-green-dark-1);
+  --color-warning: var(--color-yellow-dark-1);
+}

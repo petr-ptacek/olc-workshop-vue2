@@ -1,0 +1,44 @@
+.userCard {
+  padding: 2.5rem 2rem;
+  border: 3px solid var(--color-indigo);
+  border-radius: 8px;
+  background-color: var(--color-indigo-light-2);
+  color: var(--color-white);
+  max-width: 350px;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+
+  &__avatar {
+    img {
+      border-radius: 50%;
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      border: 2px solid var(--color-white);
+    }
+  }
+
+  &__meta {
+    .userCard__name {
+      font-size: 3rem;
+      text-align: center;
+    }
+  }
+
+  &__actions {
+    top: 3px;
+    right: 3px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: absolute;
+  }
+
+  &:hover {
+    //box-shadow: 0 0 8px 4px rgba(0, 0, 0, 0.75);
+  }
+}

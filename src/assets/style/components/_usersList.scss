@@ -1,0 +1,13 @@
+.usersList {
+  padding: 1rem;
+
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 300px));
+    gap: 1.5rem;
+
+    .userCard {
+      height: 100%;
+    }
+  }
+}

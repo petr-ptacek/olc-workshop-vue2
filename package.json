@@ -10,9 +10,11 @@
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
     "@vitejs/plugin-vue2": "^1.1.2",
-    "postcss-nested": "^6.0.0",
     "sass": "^1.58.0",
     "terser": "^5.14.2",
     "vite": "^3.0.2"
+  },
+  "dependencies": {
+    "normalize.css": "^8.0.1"
   }
 }

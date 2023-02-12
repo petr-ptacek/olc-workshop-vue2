@@ -1,12 +1,17 @@
-import Vue             from 'vue';
-import App             from './App.vue';
-import '@/assets/css/main.pcss';
-import { UserService } from '@/service';
+import Vue from 'vue';
+import '@/assets/style/main.scss';
 
-UserService.getAsync().then(res => {
-  console.log(res);
-});
+import App from './App.vue';
+import TheLoader from "@/components/TheLoader.vue";
+import { eventBus } from "@/eventBus";
 
-new Vue({
-  render: (h) => h(App)
+Vue.component("TheLoader", TheLoader);
+
+const vm = new Vue({
+    render: (h) => h(App)
 }).$mount('#app');
+
+if (process.env.NODE_ENV === "development") {
+    window.$_APP_ = vm;
+    window.$_APP_EVENT_BUS_ = eventBus;
+}
