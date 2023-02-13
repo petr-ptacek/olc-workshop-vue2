@@ -1,8 +1,8 @@
 .notify {
   position: fixed;
   top: 20px;
-  right: 50%;
-  transform: translateX(50%);
+  right: 20px;
+  width: max(25%, 250px);
   z-index: var(--z-intex--notify);
 
   &__list {
@@ -18,14 +18,16 @@
 }
 
 .notifyItem {
-  padding: 1.5rem 3.5rem 1.5rem 1.5rem;
+  //padding: 1.5rem 3.5rem 1.5rem 1.5rem;
+  padding: 1.5rem;
   background-color: #0c7e46;
+  opacity: 0.85;
   border: 3px solid transparent;
-  min-width: 200px;
-  max-width: 300px;
   border-radius: 6px;
   color: var(--color-white);
   position: relative;
+  transition: opacity 0.2s linear;
+  cursor: pointer;
 
   &__content {
 
@@ -39,6 +41,10 @@
     position: absolute;
     top: 5px;
     right: 5px;
+  }
+
+  &:hover {
+    opacity: 1;
   }
 }
 

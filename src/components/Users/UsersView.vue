@@ -1,11 +1,12 @@
 <script>
-import UsersList from '@/components/Users/UsersList.vue';
-import { createUsers } from '@/utils';
-import SearchInput from '@/components/SearchInput.vue';
-import IconUserPlus from '@/components/icons/IconUserPlus.vue';
-import DialogCreateUser from '@/components/Dialog/DialogCreateUser.vue';
-import { eventBus, eventBusEvents } from "@/eventBus";
-import DialogUpdateUser from "@/components/Dialog/DialogUpdateUser.vue";
+import { createUsers }              from '@/utils';
+import UsersList                    from '@/components/Users/UsersList.vue';
+import SearchInput                  from '@/components/SearchInput.vue';
+import IconUserPlus                 from '@/components/icons/IconUserPlus.vue';
+import { eventBus, eventBusEvents } from '@/eventBus';
+import DialogUserCreate             from '@/components/Dialog/DialogUserCreate.vue';
+import DialogUserUpdate             from '@/components/Dialog/DialogUserUpdate.vue';
+
 
 export default {
   name: 'UsersView',
@@ -17,6 +18,9 @@ export default {
         users: createUsers(20),
         dialogUserUpdate: {
           user: null
+        },
+        dialogUserCreate: {
+          visible: false
         }
       }
     };
@@ -29,14 +33,19 @@ export default {
       const { users } = this.state;
       const searchValue = this.state.searchValue.toLowerCase();
 
-      return users.filter(user => {
-        const { firstName, lastName } = user;
-        return (
-            firstName.toLowerCase().includes(searchValue) ||
-            lastName.toLowerCase().includes(searchValue)
-        );
-      });
+      return searchValue ?
+          users.filter(user => {
+            const { firstName, lastName } = user;
+            return (
+                firstName.toLowerCase().includes(searchValue) ||
+                lastName.toLowerCase().includes(searchValue)
+            );
+          }) :
+          users;
     },
+    /**
+     * @returns {number}
+     */
     usersCount() {
       return this.usersFiltered.length;
     }
@@ -52,44 +61,65 @@ export default {
      * @param {Event} e
      */
     windowScrollHandler(e) {
-      this.state.headerSticky = e.target.scrollingElement.scrollTop > this.$refs.usersView__header.offsetHeight;
+      this.state.headerSticky = window.scrollY > +this.$refs.usersView__header.offsetHeight;
     },
     /**
      * @param {import('@/types').User} user
+     * @returns {void}
      */
-    openDialogUserUpdate(user) {
+    dialogUserUpdateOpen(user) {
       this.state.dialogUserUpdate.user = user;
     },
-    openDialogUserCreate() {
-      this.$refs.dialogCreateUser.show();
+    /**
+     * @returns {void}
+     */
+    dialogUserUpdateCloseHandler() {
+      this.state.dialogUserUpdate.user = null;
     },
     /**
-     * @param {import("@/types").User} user
+     * @returns {void}
+     */
+    dialogUserCreateOpen() {
+      this.state.dialogUserCreate.visible = true;
+    },
+    /**
+     * @returns {void}
+     */
+    dialogUserCreateCloseHandler() {
+      this.state.dialogUserCreate.visible = false;
+    },
+    /**
+     * @param {import('@/types').User} user
      */
     userCreatedHandler(user) {
       this.state.users.unshift(user);
 
       eventBus.$emit(eventBusEvents.NOTIFY,
           {
-            type: "success",
-            message: `User ${user.firstName} ${user.lastName} was create successfully.`
+            type: 'success',
+            message: `User ${ user.firstName } ${ user.lastName } was created.`
           }
       );
 
-      this.$refs.dialogCreateUser.close();
+      this.state.dialogUserCreate.visible = false;
     },
     /**
      * @param {import('@/types').User} user
      */
     userDeletedHandler(user) {
       this.state.users = this.state.users.filter(_user => _user.id !== user.id);
+
+      eventBus.$emit(eventBus.Events.NOTIFY, {
+        type: 'success',
+        message: `User ${ user.firstName } ${ user.lastName } was deleted.`
+      });
     },
     /**
-     * @param {import("@/types").User} user
+     * @param {import('@/types').User} user
      */
     userUpdatedHandler(user) {
       const idx = this.state.users.findIndex(u => u.id === user.id);
-      if (idx < 0) {
+      if ( idx < 0 ) {
         return;
       }
 
@@ -100,18 +130,18 @@ export default {
       this.state.dialogUserUpdate.user = null;
 
       eventBus.$emit(eventBus.Events.NOTIFY, {
-        type: "success",
-        message: "User was updated."
-      })
-    },
-    /**
-     * @returns {void}
-     */
-    dialogUserUpdateCloseHandler() {
-      this.state.dialogUserUpdate.user = null;
+        type: 'success',
+        message: 'User was updated.'
+      });
     }
   },
-  components: { DialogUpdateUser, DialogCreateUser, IconUserPlus, SearchInput, UsersList }
+  components: {
+    DialogUserUpdate,
+    DialogUserCreate,
+    IconUserPlus,
+    SearchInput,
+    UsersList
+  }
 };
 </script>
 
@@ -128,12 +158,12 @@ export default {
       >
         Users count: <span>{{ usersCount }}</span>
       </p>
-      <SearchInput v-model="state.searchValue"/>
+      <SearchInput v-model="state.searchValue" />
       <button
           class="btn btn--secondary uppercase flex gap--1 items-center"
-          @click="openDialogUserCreate"
+          @click="dialogUserCreateOpen"
       >
-        <IconUserPlus class="icon--md"/>
+        <IconUserPlus class="icon--md" />
         <span>Create User</span>
       </button>
     </div>
@@ -141,19 +171,19 @@ export default {
     <div class="usersView__list">
       <UsersList
           :users="usersFiltered"
-          @update-user="openDialogUserUpdate"
+          @update-user="dialogUserUpdateOpen"
           @delete-user="userDeletedHandler"
       />
     </div>
 
-    <DialogCreateUser
-        ref="dialogCreateUser"
+    <DialogUserCreate
+        v-if="state.dialogUserCreate.visible"
         :on-user-created="userCreatedHandler"
+        @close="dialogUserCreateCloseHandler"
     />
 
-    <DialogUpdateUser
+    <DialogUserUpdate
         v-if="state.dialogUserUpdate.user"
-        :visible="!!state.dialogUserUpdate.user"
         :user="state.dialogUserUpdate.user"
         @user-updated="userUpdatedHandler"
         @close="dialogUserUpdateCloseHandler"

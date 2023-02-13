@@ -18,7 +18,6 @@ export default {
       return this.users.length;
     }
   },
-  methods: {},
   components: { UserCard }
 };
 </script>

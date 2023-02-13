@@ -1,23 +1,18 @@
 <script>
-import BaseModal from './Base.vue';
-import FormUser from '@/components/Users/FormUser.vue';
-import { UserService } from '@/service';
-import BaseDialog from '@/components/Dialog/Base.vue';
-import { createUser } from "@/utils";
+import BaseModal           from './Base.vue';
+import FormUser            from '@/components/Users/FormUser.vue';
+import BaseDialog          from '@/components/Dialog/Base.vue';
+// import { mixinDialogUser } from './mixins/dialogUser.js';
 
 export default {
-  name: 'DialogUpdateUser',
+  name: 'DialogUserUpdate',
+  // mixins: [mixinDialogUser],
   props: {
-    visible: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
     user: {
       type: Object,
       required: true,
       validator: (user) => {
-        return typeof user.firstName === "string" && typeof user.lastName === "string";
+        return typeof user.firstName === 'string' && typeof user.lastName === 'string';
       }
     }
   },
@@ -27,7 +22,7 @@ export default {
     BaseModal
   },
   mounted() {
-    this[this.visible ? "show" : "close"]();
+    this.show();
   },
   methods: {
     show() {
@@ -37,22 +32,22 @@ export default {
       this.$refs.baseDialog.close();
     },
     /** @param {Required<import('@/types').UserEditable>} data */
-    async formSubmitHandler(data) {
+    formSubmitHandler(data) {
       const user = Object.assign({}, this.user, data);
-      this.$emit("user-updated", user);
+      this.$emit('user-updated', user);
     },
     /**
      * @returns {void}
      */
     formCancelHandler() {
       this.close();
-      this.$emit("close");
+      this.$emit('close');
     },
     /**
      * @returns {void}
      */
     closeHandler() {
-      this.$emit("close");
+      this.$emit('close');
     }
   }
 };
@@ -60,7 +55,7 @@ export default {
 
 <template>
   <BaseDialog
-      class="dialog--updateUser"
+      class="dialog--userUpdate"
       ref="baseDialog"
       @close="closeHandler"
   >

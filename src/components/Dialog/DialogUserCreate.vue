@@ -1,27 +1,21 @@
 <script>
-import BaseModal from './Base.vue';
-import FormUser from '@/components/Users/FormUser.vue';
-import { UserService } from '@/service';
-import BaseDialog from '@/components/Dialog/Base.vue';
-import { createUser } from "@/utils";
+import BaseModal      from './Base.vue';
+import FormUser       from '@/components/Users/FormUser.vue';
+import BaseDialog     from '@/components/Dialog/Base.vue';
+import { createUser } from '@/utils';
+// import { mixinDialogUser } from './mixins/dialogUser.js';
 
 export default {
-  name: 'DialogCreateUser',
+  // mixins: [mixinDialogUser],
+  name: 'DialogUserCreate',
   props: {
     onUserCreated: {
       type: Function,
       required: false
     }
   },
-  components: {
-    BaseDialog,
-    FormUser,
-    BaseModal
-  },
-  data() {
-    return {
-      state: {}
-    };
+  mounted() {
+    this.show();
   },
   methods: {
     show() {
@@ -31,32 +25,35 @@ export default {
       this.$refs.baseDialog.close();
     },
     /** @param {Required<import('@/types').UserEditable>} data */
-    async formSubmitHandler(data) {
+    formSubmitHandler(data) {
       const user = Object.assign({}, createUser(), data);
       this.onUserCreated?.(user);
-      this.$refs.formUser.reset();
     },
     /**
      * @returns {void}
      */
     formCancelHandler() {
       this.close();
-      this.$refs.formUser.reset();
+      this.$emit('close');
     },
     /**
      * @returns {void}
      */
     closeHandler() {
-      this.$refs.formUser.reset();
-      this.$emit("close");
+      this.$emit('close');
     }
+  },
+  components: {
+    BaseDialog,
+    FormUser,
+    BaseModal
   }
 };
 </script>
 
 <template>
   <BaseDialog
-      class="dialog--createUser"
+      class="dialog--userCreate"
       ref="baseDialog"
       @close="closeHandler"
   >

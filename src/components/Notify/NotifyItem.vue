@@ -1,8 +1,8 @@
 <script>
-import IconXMark from "@/components/icons/IconXMark.vue";
+import IconXMark from '@/components/icons/IconXMark.vue';
 
 export default {
-  name: "NotifyItem",
+  name: 'NotifyItem',
   components: { IconXMark },
   props: {
     item: {
@@ -27,15 +27,15 @@ export default {
      * @returns {string}
      */
     classType() {
-      return `notifyItem--${this.type}`;
+      return `notifyItem--${ this.type }`;
     }
   }
 
-}
+};
 </script>
 
 <template>
-  <div class="notifyItem" :class="classType">
+  <div class="notifyItem" :class="classType" @click="$emit('close', item)">
     <div class="notifyItem__content">
       <div class="notifyItem__message">
         <slot :message="message">
@@ -44,10 +44,10 @@ export default {
       </div>
     </div>
 
-    <div class="notifyItem__xIcon">
-      <button class="btn btn--transparent btn--icon" @click="$emit('close', item)">
-        <IconXMark/>
-      </button>
-    </div>
+    <!--    <div class="notifyItem__xIcon">-->
+    <!--      <button class="btn btn&#45;&#45;transparent btn&#45;&#45;icon" @click="$emit('close', item)">-->
+    <!--        <IconXMark/>-->
+    <!--      </button>-->
+    <!--    </div>-->
   </div>
 </template>

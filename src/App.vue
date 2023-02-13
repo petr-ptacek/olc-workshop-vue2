@@ -3,11 +3,10 @@ import { defineComponent } from 'vue';
 import { eventBus }        from '@/eventBus';
 import TheNotify           from '@/components/Notify/App.vue';
 import UsersView           from '@/components/Users/UsersView.vue';
-import DialogCreateUser    from '@/components/Dialog/DialogCreateUser.vue';
 
 export default defineComponent({
   name: 'App',
-  components: { DialogCreateUser, UsersView, TheNotify },
+  components: { UsersView, TheNotify },
   data() {
     return {
       state: {}
