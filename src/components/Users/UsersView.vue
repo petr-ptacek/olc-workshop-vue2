@@ -1,9 +1,10 @@
 <script>
-import UsersList        from '@/components/Users/UsersList.vue';
-import { createUsers }  from '@/utils';
-import SearchInput      from '@/components/SearchInput.vue';
-import IconUserPlus     from '@/components/icons/IconUserPlus.vue';
+import UsersList from '@/components/Users/UsersList.vue';
+import { createUsers } from '@/utils';
+import SearchInput from '@/components/SearchInput.vue';
+import IconUserPlus from '@/components/icons/IconUserPlus.vue';
 import DialogCreateUser from '@/components/Dialog/DialogCreateUser.vue';
+import { eventBus, eventBusEvents } from "@/eventBus";
 
 export default {
   name: 'UsersView',
@@ -63,8 +64,23 @@ export default {
     deleteUserHandler(user) {
       this.state.users = this.state.users.filter(_user => _user.id !== user.id);
     },
-    createUserHandler() {
+    openDialogCreateUser() {
+      this.$refs.dialogCreateUser.show();
+    },
+    /**
+     * @param {import("@/types").User} user
+     */
+    userCreatedHandler(user) {
+      this.state.users.unshift(user);
 
+      eventBus.$emit(eventBusEvents.NOTIFY,
+          {
+            type: "success",
+            message: `User ${user.firstName} ${user.lastName} was create successfully.`
+          }
+      );
+
+      this.$refs.dialogCreateUser.close();
     }
   },
   components: { DialogCreateUser, IconUserPlus, SearchInput, UsersList }
@@ -84,12 +100,12 @@ export default {
       >
         Users count: <span>{{ usersCount }}</span>
       </p>
-      <SearchInput v-model="state.searchValue" />
+      <SearchInput v-model="state.searchValue"/>
       <button
           class="btn btn--secondary uppercase flex gap--1 items-center"
-          @click="createUserHandler"
+          @click="openDialogCreateUser"
       >
-        <IconUserPlus class="icon--md" />
+        <IconUserPlus class="icon--md"/>
         <span>Create User</span>
       </button>
     </div>
@@ -102,6 +118,9 @@ export default {
       />
     </div>
 
-    <DialogCreateUser />
+    <DialogCreateUser
+        ref="dialogCreateUser"
+        :on-user-created="userCreatedHandler"
+    />
   </div>
 </template>

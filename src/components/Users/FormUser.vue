@@ -43,6 +43,10 @@ export default {
      */
     cancelHandler() {
       this.$emit('cancel');
+    },
+    reset() {
+      this.state.firstName = "";
+      this.state.lastName = "";
     }
   }
 };

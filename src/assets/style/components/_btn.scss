@@ -7,7 +7,8 @@
   line-height: 1;
   //transition: background-color 0.2s linear;
 
-  &:hover {
+  &:hover,
+  &:focus {
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.75);
   }
 }
@@ -27,7 +28,8 @@
   background-color: var(--color-blue);
   border-color: var(--color-blue-dark-1);
 
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: var(--color-blue-dark-2);
     border-color: var(--color-blue-dark-2);
   }
@@ -38,7 +40,8 @@
   background-color: var(--color-green-light-1);
   border-color: var(--color-green-dark-1);
 
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: var(--color-green-dark-2);
     border-color: var(--color-green-dark-2);
   }
@@ -49,7 +52,8 @@
   background-color: var(--color-red-light-1);
   border-color: var(--color-red-dark-1);
 
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: var(--color-red-dark-2);
     border-color: var(--color-red-dark-2);
   }

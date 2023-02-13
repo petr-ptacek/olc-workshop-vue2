@@ -3,17 +3,6 @@ import IconXMark from '@/components/icons/IconXMark.vue';
 
 export default {
   name: 'BaseDialog',
-  components: { IconXMark },
-  props: {
-    loaderVisible: {
-      type: Boolean,
-      required: false,
-      default: false
-    }
-  },
-  mounted() {
-    this.show();
-  },
   methods: {
     show() {
       const dialogEl = /** @type {HTMLDialogElement} */ this.$el;
@@ -22,32 +11,35 @@ export default {
     close() {
       const dialogEl = /** @type {HTMLDialogElement} */ this.$el;
       dialogEl.close();
+    },
+    closeHandler() {
+      this.close();
+      this.$emit("close");
     }
-  }
+  },
+  components: { IconXMark }
 };
 </script>
 
 <template>
-  <dialog class="dialog" style="position: relative;">
+  <dialog class="dialog" role="alertdialog">
     <div class="dialog__actions">
-      <button class="btn btn--transparent btn--icon btn--danger btn-action-close" @click="close">
-        <IconXMark class="icon--md" />
+      <button class="btn btn--transparent btn--icon btn--danger btn-action-close" @click="closeHandler">
+        <IconXMark class="icon--md"/>
       </button>
     </div>
 
     <!--CONTENT-->
     <div class="dialog__contentWrapper">
       <div class="dialog__header">
-        <slot name="header" />
+        <slot name="header"/>
       </div>
       <div class="dialog__main">
-        <slot />
+        <slot/>
       </div>
       <div class="dialog__footer">
-        <slot name="footer" />
+        <slot name="footer"/>
       </div>
     </div>
-
-    <TheLoader :visible="loaderVisible" />
   </dialog>
 </template>
