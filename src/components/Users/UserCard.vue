@@ -1,5 +1,5 @@
 <script>
-import IconTrash  from '@/components/icons/IconTrash.vue';
+import IconTrash from '@/components/icons/IconTrash.vue';
 import IconPencil from '@/components/icons/IconPencil.vue';
 
 export default {
@@ -17,7 +17,7 @@ export default {
      */
     fullName() {
       const { firstName, lastName } = this.user;
-      return `${ firstName } ${ lastName }`;
+      return `${firstName} ${lastName}`;
     }
   }
 };
@@ -43,15 +43,15 @@ export default {
     <div class="userCard__actions">
       <button
           class="btn btn--primary"
-          @click="$emit('edit', user)"
+          @click="$emit('update', user)"
       >
-        <IconPencil class="icon--sm" />
+        <IconPencil class="icon--sm"/>
       </button>
       <button
           class="btn btn--danger"
           @click="$emit('delete', user)"
       >
-        <IconTrash class="icon--sm" />
+        <IconTrash class="icon--sm"/>
       </button>
     </div>
   </div>

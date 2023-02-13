@@ -5,6 +5,7 @@ import SearchInput from '@/components/SearchInput.vue';
 import IconUserPlus from '@/components/icons/IconUserPlus.vue';
 import DialogCreateUser from '@/components/Dialog/DialogCreateUser.vue';
 import { eventBus, eventBusEvents } from "@/eventBus";
+import DialogUpdateUser from "@/components/Dialog/DialogUpdateUser.vue";
 
 export default {
   name: 'UsersView',
@@ -13,7 +14,10 @@ export default {
       state: {
         searchValue: '',
         headerSticky: false,
-        users: createUsers(20)
+        users: createUsers(20),
+        dialogUserUpdate: {
+          user: null
+        }
       }
     };
   },
@@ -37,9 +41,6 @@ export default {
       return this.usersFiltered.length;
     }
   },
-  created() {
-
-  },
   mounted() {
     window.addEventListener('scroll', this.windowScrollHandler);
   },
@@ -56,15 +57,10 @@ export default {
     /**
      * @param {import('@/types').User} user
      */
-    editUserHandler(user) {
+    openDialogUserUpdate(user) {
+      this.state.dialogUserUpdate.user = user;
     },
-    /**
-     * @param {import('@/types').User} user
-     */
-    deleteUserHandler(user) {
-      this.state.users = this.state.users.filter(_user => _user.id !== user.id);
-    },
-    openDialogCreateUser() {
+    openDialogUserCreate() {
       this.$refs.dialogCreateUser.show();
     },
     /**
@@ -81,9 +77,41 @@ export default {
       );
 
       this.$refs.dialogCreateUser.close();
+    },
+    /**
+     * @param {import('@/types').User} user
+     */
+    userDeletedHandler(user) {
+      this.state.users = this.state.users.filter(_user => _user.id !== user.id);
+    },
+    /**
+     * @param {import("@/types").User} user
+     */
+    userUpdatedHandler(user) {
+      const idx = this.state.users.findIndex(u => u.id === user.id);
+      if (idx < 0) {
+        return;
+      }
+
+      // this.state.users[idx] = user;
+      this.$set(this.state.users, idx, user);
+      // this.state.users.splice(idx, 1, user);
+
+      this.state.dialogUserUpdate.user = null;
+
+      eventBus.$emit(eventBus.Events.NOTIFY, {
+        type: "success",
+        message: "User was updated."
+      })
+    },
+    /**
+     * @returns {void}
+     */
+    dialogUserUpdateCloseHandler() {
+      this.state.dialogUserUpdate.user = null;
     }
   },
-  components: { DialogCreateUser, IconUserPlus, SearchInput, UsersList }
+  components: { DialogUpdateUser, DialogCreateUser, IconUserPlus, SearchInput, UsersList }
 };
 </script>
 
@@ -103,7 +131,7 @@ export default {
       <SearchInput v-model="state.searchValue"/>
       <button
           class="btn btn--secondary uppercase flex gap--1 items-center"
-          @click="openDialogCreateUser"
+          @click="openDialogUserCreate"
       >
         <IconUserPlus class="icon--md"/>
         <span>Create User</span>
@@ -113,14 +141,22 @@ export default {
     <div class="usersView__list">
       <UsersList
           :users="usersFiltered"
-          @edit-user="editUserHandler"
-          @delete-user="deleteUserHandler"
+          @update-user="openDialogUserUpdate"
+          @delete-user="userDeletedHandler"
       />
     </div>
 
     <DialogCreateUser
         ref="dialogCreateUser"
         :on-user-created="userCreatedHandler"
+    />
+
+    <DialogUpdateUser
+        v-if="state.dialogUserUpdate.user"
+        :visible="!!state.dialogUserUpdate.user"
+        :user="state.dialogUserUpdate.user"
+        @user-updated="userUpdatedHandler"
+        @close="dialogUserUpdateCloseHandler"
     />
   </div>
 </template>

@@ -5,9 +5,6 @@ export default {
     user: {
       type: Object,
       required: false,
-      validator: (user) => {
-        return typeof user.firstName === 'string' && typeof user.lastName === 'string';
-      },
       default: () => ({
         firstName: '',
         lastName: ''
@@ -44,6 +41,9 @@ export default {
     cancelHandler() {
       this.$emit('cancel');
     },
+    /**
+     * @returns {void}
+     **/
     reset() {
       this.state.firstName = "";
       this.state.lastName = "";
@@ -59,6 +59,7 @@ export default {
         <label class="formField__label text--nice" for="firstName">First Name</label>
         <input
             v-model="state.firstName"
+            autofocus
             type="text"
             class="formField__input"
             id="firstName"
@@ -81,9 +82,11 @@ export default {
     </div>
 
     <div class="form__actions">
-      <button class="btn btn--success" type="submit">
-        Create
-      </button>
+      <slot name="button-submit" :click-handler="submitHandler">
+        <button class="btn btn--success" type="submit">
+          Create
+        </button>
+      </slot>
 
       <button class="btn btn--danger" type="button" @click="cancelHandler">
         Cancel

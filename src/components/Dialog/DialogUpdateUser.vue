@@ -6,11 +6,19 @@ import BaseDialog from '@/components/Dialog/Base.vue';
 import { createUser } from "@/utils";
 
 export default {
-  name: 'DialogCreateUser',
+  name: 'DialogUpdateUser',
   props: {
-    onUserCreated: {
-      type: Function,
-      required: false
+    visible: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    user: {
+      type: Object,
+      required: true,
+      validator: (user) => {
+        return typeof user.firstName === "string" && typeof user.lastName === "string";
+      }
     }
   },
   components: {
@@ -18,10 +26,8 @@ export default {
     FormUser,
     BaseModal
   },
-  data() {
-    return {
-      state: {}
-    };
+  mounted() {
+    this[this.visible ? "show" : "close"]();
   },
   methods: {
     show() {
@@ -32,22 +38,20 @@ export default {
     },
     /** @param {Required<import('@/types').UserEditable>} data */
     async formSubmitHandler(data) {
-      const user = Object.assign({}, createUser(), data);
-      this.onUserCreated?.(user);
-      this.$refs.formUser.reset();
+      const user = Object.assign({}, this.user, data);
+      this.$emit("user-updated", user);
     },
     /**
      * @returns {void}
      */
     formCancelHandler() {
       this.close();
-      this.$refs.formUser.reset();
+      this.$emit("close");
     },
     /**
      * @returns {void}
      */
     closeHandler() {
-      this.$refs.formUser.reset();
       this.$emit("close");
     }
   }
@@ -56,18 +60,25 @@ export default {
 
 <template>
   <BaseDialog
-      class="dialog--createUser"
+      class="dialog--updateUser"
       ref="baseDialog"
       @close="closeHandler"
   >
     <template #header>
-      <h1 class="header--primary text-center text--nice">Create User</h1>
+      <h1 class="header--primary text-center text--nice">Update User</h1>
     </template>
 
     <FormUser
         ref="formUser"
+        :user="user"
         @submit="formSubmitHandler"
         @cancel="formCancelHandler"
-    />
+    >
+      <template #button-submit="{ clickHandler }">
+        <button class="btn btn--success" @click="clickHandler">
+          Update
+        </button>
+      </template>
+    </FormUser>
   </BaseDialog>
 </template>

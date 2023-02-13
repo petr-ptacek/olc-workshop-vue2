@@ -39,7 +39,7 @@ export default {
       >
         <UserCard
             :user="user"
-            @edit="$emit('edit-user', user)"
+            @update="$emit('update-user', user)"
             @delete="$emit('delete-user', user)"
         />
       </li>

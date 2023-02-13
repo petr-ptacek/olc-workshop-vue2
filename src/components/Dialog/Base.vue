@@ -3,7 +3,21 @@ import IconXMark from '@/components/icons/IconXMark.vue';
 
 export default {
   name: 'BaseDialog',
+  created() {
+    window.addEventListener("keydown", this.windowKeydownHandler);
+  },
+  beforeDestroy() {
+    window.removeEventListener("keydown", this.windowKeydownHandler);
+  },
   methods: {
+    /**
+     * @param {KeyboardEvent} e
+     */
+    windowKeydownHandler(e) {
+      if (e.code === "Escape") {
+        this.$emit("close");
+      }
+    },
     show() {
       const dialogEl = /** @type {HTMLDialogElement} */ this.$el;
       dialogEl.showModal();
