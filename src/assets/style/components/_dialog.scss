@@ -9,6 +9,8 @@
   min-width: 200px;
 
   &__actions {
+    //display: flex;
+    //justify-content: end;
     position: absolute;
     top: 6px;
     right: 8px;
@@ -34,6 +36,23 @@
       text-align: center;
       background-clip: text;
 
+    }
+  }
+}
+
+.dialog--prompt {
+  padding: 2.5rem;
+  min-width: 300px;
+  max-width: 50vw;
+
+  .dialog__footer {
+    margin-top: 3rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+
+    button {
+      width: 120px;
     }
   }
 }

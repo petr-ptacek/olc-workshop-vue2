@@ -3,6 +3,12 @@ import IconXMark from '@/components/icons/IconXMark.vue';
 
 export default {
   name: 'BaseDialog',
+  props: {
+    disableCloseButton: {
+      type: Boolean,
+      required: false
+    }
+  },
   created() {
     window.addEventListener('keydown', this.windowKeydownHandler);
   },
@@ -42,7 +48,10 @@ export default {
 <template>
   <dialog class="dialog">
     <div class="dialog__actions">
-      <button class="btn btn--transparent btn--icon btn--danger btn-action-close" @click="closeHandler">
+      <button
+          v-if="!disableCloseButton"
+          class="btn btn--transparent btn--icon btn--danger btn-action-close" @click="closeHandler"
+      >
         <IconXMark class="icon--md" />
       </button>
     </div>

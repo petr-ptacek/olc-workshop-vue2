@@ -35,6 +35,18 @@
   }
 }
 
+.btn--warning {
+  color: var(--color-white);
+  background-color: var(--color-yellow);
+  border-color: var(--color-yellow-dark-1);
+
+  &:hover,
+  &:focus {
+    background-color: var(--color-yellow-dark-2);
+    border-color: var(--color-yellow-dark-2);
+  }
+}
+
 .btn--secondary, .btn--success {
   color: var(--color-white);
   background-color: var(--color-green-light-1);

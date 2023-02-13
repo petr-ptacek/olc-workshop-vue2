@@ -7,7 +7,6 @@ import { eventBus, eventBusEvents } from '@/eventBus';
 import DialogUserCreate             from '@/components/Dialog/DialogUserCreate.vue';
 import DialogUserUpdate             from '@/components/Dialog/DialogUserUpdate.vue';
 
-
 export default {
   name: 'UsersView',
   data() {
@@ -107,11 +106,18 @@ export default {
      * @param {import('@/types').User} user
      */
     userDeletedHandler(user) {
-      this.state.users = this.state.users.filter(_user => _user.id !== user.id);
+      const onConfirm = () => {
+        this.state.users = this.state.users.filter(_user => _user.id !== user.id);
 
-      eventBus.$emit(eventBus.Events.NOTIFY, {
-        type: 'success',
-        message: `User ${ user.firstName } ${ user.lastName } was deleted.`
+        eventBus.$emit(eventBus.Events.NOTIFY, {
+          type: 'success',
+          message: `User ${ user.firstName } ${ user.lastName } was deleted.`
+        });
+      };
+
+      eventBus.$emit(eventBusEvents.PROMPT, {
+        message: `Do you want to delete ${ user.firstName } ${ user.lastName }?`,
+        onConfirm
       });
     },
     /**
