@@ -1,11 +1,13 @@
 <script>
-import { createUsers }              from '@/utils';
-import UsersList                    from '@/components/Users/UsersList.vue';
-import SearchInput                  from '@/components/SearchInput.vue';
-import IconUserPlus                 from '@/components/icons/IconUserPlus.vue';
+import { createUsers } from '@/utils';
+import UsersList from '@/components/Users/UsersList.vue';
+import SearchInput from '@/components/SearchInput.vue';
+import IconUserPlus from '@/components/icons/IconUserPlus.vue';
 import { eventBus, eventBusEvents } from '@/eventBus';
-import DialogUserCreate             from '@/components/Dialog/DialogUserCreate.vue';
-import DialogUserUpdate             from '@/components/Dialog/DialogUserUpdate.vue';
+import DialogUserCreate from '@/components/Dialog/DialogUserCreate.vue';
+import DialogUserUpdate from '@/components/Dialog/DialogUserUpdate.vue';
+import IconUsers from "@/components/icons/IconUsers.vue";
+import IconUserCircle from "@/components/icons/IconUserCircle.vue";
 
 export default {
   name: 'UsersView',
@@ -14,7 +16,7 @@ export default {
       state: {
         searchValue: '',
         headerSticky: false,
-        users: createUsers(20),
+        users: createUsers(16),
         dialogUserUpdate: {
           user: null
         },
@@ -33,20 +35,33 @@ export default {
       const searchValue = this.state.searchValue.toLowerCase();
 
       return searchValue ?
-          users.filter(user => {
-            const { firstName, lastName } = user;
-            return (
-                firstName.toLowerCase().includes(searchValue) ||
-                lastName.toLowerCase().includes(searchValue)
-            );
-          }) :
+          users.filter(({ firstName, lastName }) =>
+              `${firstName} ${lastName}`.toLowerCase().includes(searchValue)
+          ) :
           users;
     },
     /**
      * @returns {number}
      */
-    usersCount() {
+    usersCountFiltered() {
       return this.usersFiltered.length;
+    },
+    /**
+     * @returns {number}
+     */
+    usersCount() {
+      return this.state.users.length;
+    }
+  },
+  watch: {
+    /**
+     * @param {number} value
+     * @param {number} oldValue
+     */
+    usersCount(value, oldValue) {
+      eventBus.$emit(eventBus.Events.PROMPT, {
+        message: `Info: The users count was changed from ${oldValue} to ${value}`,
+      });
     }
   },
   mounted() {
@@ -96,7 +111,7 @@ export default {
       eventBus.$emit(eventBusEvents.NOTIFY,
           {
             type: 'success',
-            message: `User ${ user.firstName } ${ user.lastName } was created.`
+            message: `User ${user.firstName} ${user.lastName} was created.`
           }
       );
 
@@ -111,12 +126,12 @@ export default {
 
         eventBus.$emit(eventBus.Events.NOTIFY, {
           type: 'success',
-          message: `User ${ user.firstName } ${ user.lastName } was deleted.`
+          message: `User ${user.firstName} ${user.lastName} was deleted.`
         });
       };
 
       eventBus.$emit(eventBusEvents.PROMPT, {
-        message: `Do you want to delete ${ user.firstName } ${ user.lastName }?`,
+        message: `Do you want to delete ${user.firstName} ${user.lastName}?`,
         onConfirm
       });
     },
@@ -125,7 +140,7 @@ export default {
      */
     userUpdatedHandler(user) {
       const idx = this.state.users.findIndex(u => u.id === user.id);
-      if ( idx < 0 ) {
+      if (idx < 0) {
         return;
       }
 
@@ -142,6 +157,8 @@ export default {
     }
   },
   components: {
+    IconUsers,
+    IconUserCircle,
     DialogUserUpdate,
     DialogUserCreate,
     IconUserPlus,
@@ -158,18 +175,18 @@ export default {
         class="usersView__header"
         :class="{ 'sticky': state.headerSticky }"
     >
-      <p
+      <div
           v-show="state.headerSticky"
           class="text-center text--nice header--primary m-0"
       >
-        Users count: <span>{{ usersCount }}</span>
-      </p>
-      <SearchInput v-model="state.searchValue" />
+        <div>Users count: <span>{{ usersCountFiltered }}</span></div>
+      </div>
+      <SearchInput v-model="state.searchValue"/>
       <button
           class="btn btn--secondary uppercase flex gap--1 items-center"
           @click="dialogUserCreateOpen"
       >
-        <IconUserPlus class="icon--md" />
+        <IconUserPlus class="icon--md"/>
         <span>Create User</span>
       </button>
     </div>

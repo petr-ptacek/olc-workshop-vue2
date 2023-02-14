@@ -22,8 +22,8 @@ export default {
      */
     windowKeydownHandler(e) {
       if ( e.code === 'Escape' ) {
+        // window.document.body.style.removeProperty('overflow');
         this.$emit('close');
-        window.document.body.style.removeProperty('overflow');
       }
     },
     show() {

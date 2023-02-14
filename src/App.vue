@@ -1,8 +1,8 @@
 <script>
 import { eventBus } from '@/eventBus';
-import TheNotify    from '@/components/Notify/App.vue';
-import UsersView    from '@/components/Users/UsersView.vue';
-import ThePrompt    from '@/components/Dialog/Prompt.vue';
+import TheNotify from '@/components/Notify/App.vue';
+import UsersView from '@/components/Users/UsersView.vue';
+import ThePrompt from '@/components/Dialog/Prompt.vue';
 
 export default {
   name: 'App',
@@ -13,6 +13,9 @@ export default {
         prompt: {
           visible: false,
           props: {}
+        },
+        loader: {
+          visible: false
         }
       }
     };
@@ -20,10 +23,23 @@ export default {
   mounted() {
     eventBus.$on(eventBus.Events.NOTIFY, this.notifyMessage);
     eventBus.$on(eventBus.Events.PROMPT, this.showPrompt);
+
+    const showLoader = () => (this.state.loader.visible = true);
+
+    eventBus.$on(eventBus.Events.LOADER_SHOW, showLoader);
+
+    const hideLoader = () => (this.state.loader.visible = false);
+
+    eventBus.$on(eventBus.Events.LOADER_HIDE, hideLoader);
+
+    this.$on("hook:beforeDestroy", () => {
+      eventBus.$off(eventBus.Events.LOADER_HIDE, hideLoader)
+      eventBus.$off(eventBus.Events.LOADER_SHOW, showLoader)
+    })
   },
   beforeDestroy() {
-    eventBus.$on(eventBus.Events.NOTIFY, this.notifyMessage);
-    eventBus.$on(eventBus.Events.PROMPT, this.showPrompt);
+    eventBus.$off(eventBus.Events.NOTIFY, this.notifyMessage);
+    eventBus.$off(eventBus.Events.PROMPT, this.showPrompt);
   },
   methods: {
     /**
@@ -53,7 +69,8 @@ export default {
 
 <template>
   <div>
-    <TheNotify ref="notify" />
+    <TheLoader :visible="state.loader.visible"/>
+    <TheNotify ref="notify"/>
     <ThePrompt
         v-if="state.prompt.visible"
         v-bind="state.prompt.props"
@@ -61,7 +78,7 @@ export default {
     />
 
     <main class="container">
-      <UsersView />
+      <UsersView/>
     </main>
   </div>
 </template>
