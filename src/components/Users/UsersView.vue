@@ -1,13 +1,13 @@
 <script>
-import { createUsers } from '@/utils';
-import UsersList from '@/components/Users/UsersList.vue';
-import SearchInput from '@/components/SearchInput.vue';
-import IconUserPlus from '@/components/icons/IconUserPlus.vue';
+import { createUsers }              from '@/utils';
+import UsersList                    from '@/components/Users/UsersList.vue';
+import SearchInput                  from '@/components/SearchInput.vue';
+import IconUserPlus                 from '@/components/icons/IconUserPlus.vue';
 import { eventBus, eventBusEvents } from '@/eventBus';
-import DialogUserCreate from '@/components/Dialog/DialogUserCreate.vue';
-import DialogUserUpdate from '@/components/Dialog/DialogUserUpdate.vue';
-import IconUsers from "@/components/icons/IconUsers.vue";
-import IconUserCircle from "@/components/icons/IconUserCircle.vue";
+import DialogUserCreate             from '@/components/Dialog/DialogUserCreate.vue';
+import DialogUserUpdate             from '@/components/Dialog/DialogUserUpdate.vue';
+import IconUsers                    from '@/components/icons/IconUsers.vue';
+import IconUserCircle               from '@/components/icons/IconUserCircle.vue';
 
 export default {
   name: 'UsersView',
@@ -36,7 +36,7 @@ export default {
 
       return searchValue ?
           users.filter(({ firstName, lastName }) =>
-              `${firstName} ${lastName}`.toLowerCase().includes(searchValue)
+              `${ firstName } ${ lastName }`.toLowerCase().includes(searchValue)
           ) :
           users;
     },
@@ -60,7 +60,7 @@ export default {
      */
     usersCount(value, oldValue) {
       eventBus.$emit(eventBus.Events.PROMPT, {
-        message: `Info: The users count was changed from ${oldValue} to ${value}`,
+        message: `Info: The users count was changed from ${ oldValue } to ${ value }`
       });
     }
   },
@@ -111,7 +111,7 @@ export default {
       eventBus.$emit(eventBusEvents.NOTIFY,
           {
             type: 'success',
-            message: `User ${user.firstName} ${user.lastName} was created.`
+            message: `User ${ user.firstName } ${ user.lastName } was created.`
           }
       );
 
@@ -126,12 +126,12 @@ export default {
 
         eventBus.$emit(eventBus.Events.NOTIFY, {
           type: 'success',
-          message: `User ${user.firstName} ${user.lastName} was deleted.`
+          message: `User ${ user.firstName } ${ user.lastName } was deleted.`
         });
       };
 
       eventBus.$emit(eventBusEvents.PROMPT, {
-        message: `Do you want to delete ${user.firstName} ${user.lastName}?`,
+        message: `Do you want to delete ${ user.firstName } ${ user.lastName }?`,
         onConfirm
       });
     },
@@ -140,7 +140,7 @@ export default {
      */
     userUpdatedHandler(user) {
       const idx = this.state.users.findIndex(u => u.id === user.id);
-      if (idx < 0) {
+      if ( idx < 0 ) {
         return;
       }
 
@@ -181,12 +181,12 @@ export default {
       >
         <div>Users count: <span>{{ usersCountFiltered }}</span></div>
       </div>
-      <SearchInput v-model="state.searchValue"/>
+      <SearchInput v-model="state.searchValue" />
       <button
           class="btn btn--secondary uppercase flex gap--1 items-center"
           @click="dialogUserCreateOpen"
       >
-        <IconUserPlus class="icon--md"/>
+        <IconUserPlus class="icon--md" />
         <span>Create User</span>
       </button>
     </div>
